@@ -1,12 +1,23 @@
-import tensorflow
-model = tf.keras.models.load_model('path_to_your_model.h5')
+# app.py
+from fastapi import FastAPI, File, UploadFile
+from PIL import Image
+import numpy as np
+import tensorflow as tf
+import io
 
-# Convert the model to TensorFlow Lite format
-converter = tf.lite.TFLiteConverter.from_keras_model(model)
-tflite_model = converter.convert()
+app = FastAPI()
 
-# Save the TFLite model to a file
-with open('model.tflite', 'wb') as f:
-    f.write(tflite_model)
+# Load your Keras model
+model = tf.keras.models.load_model("path_to_your_model.h5")
 
-print("Model converted and saved as model.tflite")
+@app.post("/predict/")
+async def predict(file: UploadFile = File(...)):
+    # Read the uploaded image
+    image = Image.open(io.BytesIO(await file.read()))
+    image = image.resize((224, 224))  # Adjust this based on your model input size
+    image = np.array(image) / 255.0
+    image = np.expand_dims(image, axis=0)
+    
+    # Predict using the model
+    prediction = model.predict(image)
+    return {"prediction": prediction.tolist()}
