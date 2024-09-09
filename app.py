@@ -1,7 +1,7 @@
-from fastapi import FastAPI
+#from fastapi import FastAPI
+from asgiref.wsgi import WsgiToAsgi
+from flask import Flask, request, jsonify
 from fastapi.responses import JSONResponse
-#from asgiref.wsgi import WsgiToAsgi
-#from flask import Flask, request, jsonify
 import os
 import tensorflow as tf
 import requests
@@ -10,7 +10,9 @@ import numpy as np
 import io
 
 # Initialize the fastapi app
-app = FastAPI()
+#app = FastAPI()
+app = Flask(__name__)
+asgi_app = WsgiToAsgi(app)
 
 # Load the TFLite model
 interpreter = tf.lite.Interpreter(model_path="fish-detect.tflite")
@@ -34,7 +36,7 @@ def predict(image_path):
     output_data = interpreter.get_tensor(output_details[0]['index'])
     return output_data[0]
 
-# Create an API route for image prediction
+'''# Create an API route for image prediction
 @app.route('/predict', methods=['POST'])
 def predict_api():
     if 'file' not in request.files:
@@ -46,13 +48,13 @@ def predict_api():
     result = predict(file)
 
     # Return the prediction result as JSON
-    return jsonify({"prediction": result.tolist()})
+    return jsonify({"prediction": result.tolist()})'''
 
 @app.get("/")
 async def root():
     return {"message": "Hello from FastAPI"}
 
-'''@app.post("/predict/")
+@app.post("/predict/")
 async def predict(file: bytes):
     image = Image.open(io.BytesIO(file)).resize((150, 150))
     image = np.array(image) / 255.0
@@ -65,7 +67,7 @@ async def predict(file: bytes):
     interpreter.invoke()
 
     output_data = interpreter.get_tensor(output_details[0]['index'])
-    return JSONResponse({"predictions": output_data.tolist()})'''
+    return jsonify({'predictions': output_data.tolist()})
 
 
 
