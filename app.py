@@ -50,26 +50,7 @@ def predict_api():
     # Return the prediction result as JSON
     return jsonify({"prediction": result.tolist()})
 
-'''@app.post("/")
-async def root():
-    return jsonify({"message": "Hello from FastAPI"})
-
-@app.get("/predict/")
-async def predict(file: bytes):
-    image = Image.open(io.BytesIO(file)).resize((150, 150))
-    image = np.array(image) / 255.0
-    image = np.expand_dims(image, axis=0).astype(np.float32)
-    
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-
-    interpreter.set_tensor(input_details[0]['index'], image)
-    interpreter.invoke()
-
-    output_data = interpreter.get_tensor(output_details[0]['index'])
-    return jsonify({'predictions': output_data.tolist()})'''
-
 
 if __name__ == "__main__":
-    #app.run(debug=True)
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8000)))
+    app.run(debug=True)
+    #app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8000)))
