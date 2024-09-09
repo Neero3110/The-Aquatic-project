@@ -5,5 +5,4 @@ Pillow
 flask
 gunicorn
 asgiref
-JSONResponse
 FastAPI
