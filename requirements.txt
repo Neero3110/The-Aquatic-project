@@ -4,3 +4,4 @@ uvicorn
 Pillow
 flask
 gunicorn
+asgiref
