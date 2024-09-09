@@ -8,7 +8,7 @@ import numpy as np
 import io
 
 # Initialize the Flask app
-app = Flask.Flask(__name__)
+app = Flask(__name__)
 asgi_app = WsgiToAsgi(app)
 
 # Load the TFLite model
