@@ -31,3 +31,4 @@ def predict(image_path):
 image_path = '1c06f5e8-2520-40d0-85bd-6f80d041dfb8-840mm.jpg'  # Replace with your image file path
 predictions = predict(image_path)
 print(predictions)
+print('done')
