@@ -1,9 +1,13 @@
+from flask import Flask, request, jsonify
 import os
 import tensorflow as tf
 import requests
 from PIL import Image
 import numpy as np
 import io
+
+# Initialize the Flask app
+app = Flask(__name__)
 
 # Load the TFLite model
 interpreter = tf.lite.Interpreter(model_path="fish-detect.tflite")
@@ -27,6 +31,23 @@ def predict(image_path):
     output_data = interpreter.get_tensor(output_details[0]['index'])
     return output_data[0]
 
+# Create an API route for image prediction
+@app.route('/predict', methods=['POST'])
+def predict_api():
+    if 'file' not in request.files:
+        return jsonify({"error": "No image file uploaded"}), 400
+    
+    file = request.files['file']
+
+    # Run prediction
+    result = predict(file)
+
+    # Return the prediction result as JSON
+    return jsonify({"prediction": result.tolist()})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
 # Example usage
 image_path = '1c06f5e8-2520-40d0-85bd-6f80d041dfb8-840mm.jpg'  # Replace with your image file path
 predictions = predict(image_path)
