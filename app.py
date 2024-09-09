@@ -49,9 +49,4 @@ def predict_api():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8000)))
-
-# Example usage
-image_path = '1c06f5e8-2520-40d0-85bd-6f80d041dfb8-840mm.jpg'  # Replace with your image file path
-predictions = predict(image_path)
-print(predictions)
-print('done')
+    predict_api()
