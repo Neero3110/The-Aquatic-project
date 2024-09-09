@@ -52,7 +52,7 @@ def predict_api():
 
 @app.get("/")
 async def root():
-    return {"message": "Hello from FastAPI"}
+    return jsonify({"message": "Hello from FastAPI"})
 
 @app.post("/predict/")
 async def predict(file: bytes):
