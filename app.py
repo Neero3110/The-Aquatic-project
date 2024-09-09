@@ -36,7 +36,7 @@ def predict(image_path):
     output_data = interpreter.get_tensor(output_details[0]['index'])
     return output_data[0]
 
-'''# Create an API route for image prediction
+# Create an API route for image prediction
 @app.route('/predict', methods=['POST'])
 def predict_api():
     if 'file' not in request.files:
@@ -48,9 +48,9 @@ def predict_api():
     result = predict(file)
 
     # Return the prediction result as JSON
-    return jsonify({"prediction": result.tolist()})'''
+    return jsonify({"prediction": result.tolist()})
 
-@app.post("/")
+'''@app.post("/")
 async def root():
     return jsonify({"message": "Hello from FastAPI"})
 
@@ -67,9 +67,9 @@ async def predict(file: bytes):
     interpreter.invoke()
 
     output_data = interpreter.get_tensor(output_details[0]['index'])
-    return jsonify({'predictions': output_data.tolist()})
-
+    return jsonify({'predictions': output_data.tolist()})'''
 
 
 if __name__ == "__main__":
+    #app.run(debug=True)
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8000)))
