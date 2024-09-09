@@ -50,11 +50,11 @@ def predict_api():
     # Return the prediction result as JSON
     return jsonify({"prediction": result.tolist()})'''
 
-@app.get("/")
+@app.post("/")
 async def root():
     return jsonify({"message": "Hello from FastAPI"})
 
-@app.post("/predict/")
+@app.get("/predict/")
 async def predict(file: bytes):
     image = Image.open(io.BytesIO(file)).resize((150, 150))
     image = np.array(image) / 255.0
